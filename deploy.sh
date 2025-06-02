@@ -8,7 +8,7 @@
 #   - Implements verification and logging capabilities
 #
 # Usage:
-# bash  ./deploy.sh <repo_name> <tag_name> [kernel_prefix] [--dry-run]
+# bash  ./deploy.sh -r <repo_name> -t <tag_name> [-c <conda_prefix>] [-j <jupyter_prefix>] [--dry-run] [--help]
 ##########################################################################
 
 # -e = exit on error unless in a conditional expression

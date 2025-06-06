@@ -21,10 +21,10 @@ dependencies:
   - biom-format
   - flake8
   - papermill
+  - watermark
   - pip:
       - click
       - coverage
       - coveralls
       - ipykernel
       - sample-sheet
-      - watermark

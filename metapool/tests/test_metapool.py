@@ -2018,6 +2018,20 @@ class Tests(TestCase):
                     '41B.Month6.1', 'not_in_metadata'),
                 self.metadata, self.sa_df, self.blanks_dir)
 
+    def test_validate_plate_df_err_sample_not_in_metadata_string_dtype(self):
+        # As above with control_description in the pandas "string" dtype
+        # (pandas 3's default for text). A missing description must not make
+        # a sample a control, which would skip its metadata check.
+        plate_df = self.validation_plate_df.replace(
+            '41B.Month6.1', 'not_in_metadata')
+        plate_df['control_description'] = \
+            plate_df['control_description'].astype('string')
+        err_msg = \
+            "The following samples are missing metadata: 'not_in_metadata'"
+        with self.assertRaisesRegex(ValueError, err_msg):
+            validate_plate_df(plate_df, self.metadata, self.sa_df,
+                              self.blanks_dir)
+
     def test_validate_plate_df_err_tubecode_not_in_sample_accession(self):
         # Raises error for TubeCode with no associated sample info
         err_msg = (

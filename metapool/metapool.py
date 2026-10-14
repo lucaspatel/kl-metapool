@@ -2464,10 +2464,13 @@ def validate_plate_df(plate_df, metadata, sample_accession_df, blanks_dir,
         control_samples = set()
     else:
         pat = "positive_control|negative_control"
+        # A sample with no description is not a control. na=False says so
+        # for every string dtype: OR-ing in isna() instead marks every
+        # undescribed sample a control under the pandas "string" dtype (the
+        # default in pandas 3), so samples with no metadata would pass.
         control_samples = set(
             plate_df.loc[
-                (plate_df[CONTROLS_DESCRIPTION_KEY].str.contains(pat))
-                | (plate_df[CONTROLS_DESCRIPTION_KEY].isna()),
+                plate_df[CONTROLS_DESCRIPTION_KEY].str.contains(pat, na=False),
                 "Sample",
             ]
         )
